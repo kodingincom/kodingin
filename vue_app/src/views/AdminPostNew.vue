@@ -42,7 +42,7 @@ if (isEditing) {
             const d = new Date(isTimestampNumber ? Number(rawDate) : rawDate);
             
             if (!isNaN(d.getTime())) {
-                 createdAtDate.value = d.toISOString().split('T')[0]
+                 createdAtDate.value = d.toISOString().substring(0, 10)
             }
         } catch(e) { console.error("Bad date format", newVal.createdAt) }
       }
