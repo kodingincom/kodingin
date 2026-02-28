@@ -1,20 +1,23 @@
 import express from 'express';
 import cors from 'cors';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
 import Redis from 'ioredis';
 import * as schema from './db/schema';
 import { eq, desc } from 'drizzle-orm';
+import { db } from './db';
+import { auth } from './auth';
+import { toNodeHandler } from 'better-auth/node';
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true
+}));
 app.use(express.json());
 
-// Initialize SQLite through better-sqlite3
-const sqlite = new Database('.data/sqlite.db');
-const db = drizzle(sqlite, { schema });
+// Mount Better Auth endpoints
+app.use("/api/auth", toNodeHandler(auth));
 
 // Initialize Redis client. Use REDIS_URL if provided (for docker) else default local port
 const redis = new Redis(process.env.REDIS_URL || 'redis://127.0.0.1:6379');

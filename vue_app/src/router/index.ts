@@ -4,6 +4,7 @@ import Blog from '../Blog.vue'
 import AdminLayout from '../AdminLayout.vue'
 import AdminPosts from '../views/AdminPosts.vue'
 import AdminPostNew from '../views/AdminPostNew.vue'
+import { authClient } from '../lib/auth'
 
 const routes = [
     {
@@ -27,8 +28,15 @@ const routes = [
         component: () => import('../BlogCategory.vue')
     },
     {
+        path: '/admin/login',
+        name: 'AdminLogin',
+        component: () => import('../views/AdminLogin.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
         path: '/admin',
         component: AdminLayout,
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '',
@@ -61,6 +69,20 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+router.beforeEach(async (to, _from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        const sessionRes = await authClient.getSession();
+        // @ts-ignore - better-auth types are acting up in strict mode
+        if (!sessionRes || !sessionRes.data) {
+            next('/admin/login')
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
 })
 
 export default router
