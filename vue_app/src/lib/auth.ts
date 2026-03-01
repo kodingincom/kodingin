@@ -1,7 +1,8 @@
 import { createAuthClient } from "better-auth/vue"
 import { adminClient } from "better-auth/client/plugins"
 
-const API_BASE = import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:4000'
+const rawApiUrl = import.meta.env.VITE_API_URL || '';
+const API_BASE = rawApiUrl ? rawApiUrl.replace(/\/api\/?$/, '') : (import.meta.env.DEV ? 'http://localhost:4000' : '');
 
 export const authClient = createAuthClient({
     baseURL: API_BASE,

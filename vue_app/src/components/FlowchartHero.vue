@@ -306,25 +306,41 @@ const getNodeClass = (nodeStep: number) => {
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.04); /* Light theme: subtle dark grey */
+  border: 1px solid rgba(0, 0, 0, 0.15); /* Light theme: visible border */
   border-radius: var(--radius-md);
   backdrop-filter: blur(20px);
   transition: all 0.4s ease;
+  opacity: 0.6;
+}
+
+:global(.dark) .flow-node {
+  background: rgba(138, 43, 226, 0.06); /* Dark theme: subtle purple neon background, replacing white */
+  border: 1px solid rgba(138, 43, 226, 0.2);
   opacity: 0.5;
 }
 
 .flow-node.active {
   opacity: 1;
-  background: rgba(99, 102, 241, 0.08);
-  border-color: var(--primary, #8a2be2);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  background: rgba(138, 43, 226, 0.15); /* Light theme: visible purple */
+  border-color: #8a2be2;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+}
+
+:global(.dark) .flow-node.active {
+  background: rgba(138, 43, 226, 0.25); /* Dark theme: strong purple neon */
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
 }
 
 .flow-node.completed {
-  opacity: 0.8;
-  background: rgba(34, 197, 94, 0.05);
-  border-color: rgba(34, 197, 94, 0.3);
+  opacity: 0.9;
+  background: rgba(34, 197, 94, 0.15); /* Light theme: darker green */
+  border-color: rgba(34, 197, 94, 0.5); /* Light theme: distinct green border */
+}
+
+:global(.dark) .flow-node.completed {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.4);
 }
 
 .flow-icon {
@@ -333,21 +349,30 @@ const getNodeClass = (nodeStep: number) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.05); /* Light theme: dark icon bg */
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: var(--radius-sm);
   transition: all 0.4s ease;
+}
+
+:global(.dark) .flow-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .flow-icon svg {
   width: 16px;
   height: 16px;
-  color: var(--muted-foreground, #a1a1aa);
+  color: #64748b; /* Light theme: dark grey slate */
   transition: all 0.4s ease;
 }
 
+:global(.dark) .flow-icon svg {
+  color: var(--muted-foreground, #a1a1aa);
+}
+
 .flow-node.active .flow-icon {
-  background: var(--primary, #8a2be2);
+  background: #8a2be2;
   border-color: transparent;
 }
 
@@ -356,29 +381,54 @@ const getNodeClass = (nodeStep: number) => {
 }
 
 .flow-node.completed .flow-icon {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+:global(.dark) .flow-node.completed .flow-icon {
   background: rgba(34, 197, 94, 0.15);
   border-color: rgba(34, 197, 94, 0.3);
 }
 
 .flow-node.completed .flow-icon svg {
+  color: #16a34a; /* Light theme: darker green text */
+}
+
+:global(.dark) .flow-node.completed .flow-icon svg {
   color: #22c55e;
 }
 
 .icon-tech {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+:global(.dark) .icon-tech {
   background: var(--bg-tertiary);
 }
 
 .tech-label {
   font-size: 14px;
   font-weight: 700;
+  color: #475569; /* Light theme: dark slate */
+}
+
+:global(.dark) .tech-label {
   color: var(--muted-foreground, #a1a1aa);
 }
 
 .flow-node.active .tech-label {
+  color: #8a2be2;
+}
+
+:global(.dark) .flow-node.active .tech-label {
   color: white;
 }
 
 .flow-node.completed .tech-label {
+  color: #16a34a;
+}
+
+:global(.dark) .flow-node.completed .tech-label {
   color: #22c55e;
 }
 
@@ -400,34 +450,47 @@ const getNodeClass = (nodeStep: number) => {
 .flow-title {
   font-size: 12px;
   font-weight: 600;
+  color: #334155; /* Light theme */
+}
+
+:global(.dark) .flow-title {
   color: var(--foreground, #fff);
 }
 
 .flow-desc {
   font-size: 10px;
+  color: #64748b; /* Light theme */
+}
+
+:global(.dark) .flow-desc {
   color: var(--muted-foreground, #a1a1aa);
 }
 
 .flow-node.active .flow-title {
-  color: var(--primary, #8a2be2);
+  color: #8a2be2;
 }
 
 /* Connectors */
 .flow-connector {
   display: flex;
   justify-content: center;
-  color: var(--muted-foreground, #a1a1aa);
-  opacity: 0.4;
+  color: rgba(0, 0, 0, 0.25); /* Light theme connector */
+  opacity: 0.8;
   transition: all 0.5s ease;
+}
+
+:global(.dark) .flow-connector {
+  color: rgba(138, 43, 226, 0.3); /* Dark theme connector uses neon purple base */
+  opacity: 0.6;
 }
 
 .flow-connector.active {
   opacity: 1;
-  color: var(--primary, #8a2be2);
+  color: #8a2be2;
 }
 
 .flow-connector.completed {
-  opacity: 0.8;
+  opacity: 1;
   color: #22c55e;
 }
 

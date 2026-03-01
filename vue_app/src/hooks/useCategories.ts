@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api'
+const rawApiUrl = import.meta.env.VITE_API_URL || '';
+const API_URL = rawApiUrl
+    ? (rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl.replace(/\/$/, '')}/api`)
+    : (import.meta.env.DEV ? 'http://localhost:4000/api' : '/api');
 
 export function useGetCategories() {
     return useQuery({
