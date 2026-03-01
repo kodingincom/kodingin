@@ -20,8 +20,9 @@ const handleLogout = () => {
   <div class="flex h-screen bg-background text-foreground overflow-hidden">
     <!-- Sidebar -->
     <aside class="w-64 border-r border-border bg-card flex flex-col shrink-0 transition-all duration-300 relative z-20">
-      <router-link to="/" class="h-20 flex items-center px-8 text-2xl font-bold tracking-tighter border-b border-border hover:opacity-80 transition-opacity">
-        koding<span class="text-primary italic">in</span>
+      <router-link to="/" class="h-20 flex items-center px-8 border-b border-border hover:opacity-80 transition-opacity">
+        <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
+        <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
       </router-link>
 
       <nav class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">

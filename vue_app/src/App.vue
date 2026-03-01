@@ -134,8 +134,9 @@ onUnmounted(() => {
       :class="['fixed top-0 w-full z-50 transition-all duration-300', isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-border py-4' : 'bg-transparent py-5']"
     >
       <div class="container mx-auto px-5 flex justify-between items-center max-w-6xl">
-        <a href="#" class="text-2xl font-bold tracking-tight">
-          koding<span class="text-primary">in</span>
+        <a href="#" class="flex items-center">
+          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
+          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
         </a>
         
         <nav class="hidden md:flex items-center gap-8">
@@ -417,8 +418,9 @@ onUnmounted(() => {
     <footer class="border-t border-border bg-secondary/20 py-12 mt-12">
       <div class="container mx-auto px-5 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
-          <a href="#" class="text-xl font-bold tracking-tight">
-            koding<span class="text-primary">in</span>
+          <a href="#" class="flex items-center">
+            <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-6 block dark:hidden" />
+            <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-6 hidden dark:block" />
           </a>
           <p class="text-sm text-muted-foreground mt-2"><span style="font-family: system-ui;">&copy;</span> 2026 kodingin. All rights reserved.</p>
         </div>
