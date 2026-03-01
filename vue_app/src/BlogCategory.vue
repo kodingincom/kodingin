@@ -58,8 +58,8 @@ const formatDate = (dateString: string) => {
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border shadow-sm">
       <div class="container mx-auto px-5 h-20 flex items-center justify-between">
         <router-link to="/" class="flex items-center">
-          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
-          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
+          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-light" />
+          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-dark" />
         </router-link>
         <div class="flex items-center gap-4">
             <router-link to="/blog" class="text-sm font-medium hover:text-primary transition-colors flex items-center">

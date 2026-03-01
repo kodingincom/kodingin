@@ -139,8 +139,9 @@ const generateSlug = () => {
           <label class="text-sm font-semibold">Post Date</label>
           <input 
             v-model="createdAtDate" 
-            type="date" 
-            class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            type="date"
+            disabled
+            class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all opacity-50 cursor-not-allowed"
           />
         </div>
       </div>

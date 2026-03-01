@@ -135,8 +135,8 @@ onUnmounted(() => {
     >
       <div class="container mx-auto px-5 flex justify-between items-center max-w-6xl">
         <a href="#" class="flex items-center">
-          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
-          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
+          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-light" />
+          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-dark" />
         </a>
         
         <nav class="hidden md:flex items-center gap-8">
@@ -196,6 +196,8 @@ onUnmounted(() => {
 
     <!-- Hero Section -->
     <section id="hero" class="min-h-screen flex items-center relative overflow-hidden pt-20">
+      <!-- Ambient Background Effects -->
+      <div class="absolute inset-0 bg-[url('@/assets/noise.png')] opacity-[0.03] pointer-events-none"></div>
       <!-- Decorative Glow -->
       <div class="absolute -top-1/4 -right-10 w-1/2 h-[80%] bg-[radial-gradient(circle,rgba(138,43,226,0.3)_0%,transparent_70%)] blur-[80px] -z-10"></div>
       
@@ -419,8 +421,8 @@ onUnmounted(() => {
       <div class="container mx-auto px-5 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <a href="#" class="flex items-center">
-            <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-6 block dark:hidden" />
-            <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-6 hidden dark:block" />
+            <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 w-auto theme-logo-light" />
+            <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 w-auto theme-logo-dark" />
           </a>
           <p class="text-sm text-muted-foreground mt-2"><span style="font-family: system-ui;">&copy;</span> 2026 kodingin. All rights reserved.</p>
         </div>

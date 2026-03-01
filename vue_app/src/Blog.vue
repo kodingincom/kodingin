@@ -69,8 +69,8 @@ const formatDate = (dateString: string) => {
     >
       <div class="container mx-auto px-5 flex justify-between items-center max-w-6xl">
         <a href="/" class="flex items-center">
-          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
-          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
+          <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-light" />
+          <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-12 w-auto theme-logo-dark" />
         </a>
         
         <nav class="hidden md:flex items-center gap-8">
@@ -202,8 +202,8 @@ const formatDate = (dateString: string) => {
       <div class="container mx-auto px-5 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <a href="/" class="flex items-center">
-            <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-6 block dark:hidden" />
-            <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-6 hidden dark:block" />
+            <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 w-auto theme-logo-light" />
+            <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 w-auto theme-logo-dark" />
           </a>
           <p class="text-sm text-muted-foreground mt-2"><span style="font-family: system-ui;">&copy;</span> 2026 kodingin. All rights reserved.</p>
         </div>
