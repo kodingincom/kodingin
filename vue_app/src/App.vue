@@ -196,8 +196,6 @@ onUnmounted(() => {
 
     <!-- Hero Section -->
     <section id="hero" class="min-h-screen flex items-center relative overflow-hidden pt-20">
-      <!-- Ambient Background Effects -->
-      <div class="absolute inset-0 bg-[url('@/assets/noise.png')] opacity-[0.03] pointer-events-none"></div>
       <!-- Decorative Glow -->
       <div class="absolute -top-1/4 -right-10 w-1/2 h-[80%] bg-[radial-gradient(circle,rgba(138,43,226,0.3)_0%,transparent_70%)] blur-[80px] -z-10"></div>
       

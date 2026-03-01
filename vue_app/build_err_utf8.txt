@@ -1,0 +1,62 @@
+﻿node.exe : [33mYou are using Node.js 
+22.11.0. Vite requires Node.js version 
+20.19+ or 22.12+. Please upgrade your 
+Node.js version.[39m
+At C:\Program Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpeci 
+   fied: ([33mYou are us...s version  
+  .[39m:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCo 
+   mmandError
+ 
+[31mΓ£ù[39m Build failed in 4.37s
+[31merror during build:
+[31m[vite:css] [postcss] ENOENT: no 
+such file or directory, open 'C:\Users\
+GHEGHI\Documents\Ghevary\project\demo\k
+odingin_demo\vue_app\src\assets\noise.p
+ng'[31m
+file: [36mC:/Users/GHEGHI/Documents/Gh
+evary/project/demo/kodingin_demo/vue_ap
+p/src/style.css:undefined:NaN[31m
+    at async open 
+(node:internal/fs/promises:638:25)
+    at async Object.readFile 
+(node:internal/fs/promises:1238:14)
+    at async fileToBuiltUrl (file:///C:
+/Users/GHEGHI/Documents/Ghevary/project
+/demo/kodingin_demo/vue_app/node_module
+s/vite/dist/node/chunks/config.js:8777:
+18)
+    at async Object.urlResolver [as 
+resolver] (file:///C:/Users/GHEGHI/Docu
+ments/Ghevary/project/demo/kodingin_dem
+o/vue_app/node_modules/vite/dist/node/c
+hunks/config.js:29580:19)
+    at async replacerForDeclaration (fi
+le:///C:/Users/GHEGHI/Documents/Ghevary
+/project/demo/kodingin_demo/vue_app/nod
+e_modules/vite/dist/node/chunks/config.
+js:30299:36)
+    at async doUrlReplace (file:///C:/U
+sers/GHEGHI/Documents/Ghevary/project/d
+emo/kodingin_demo/vue_app/node_modules/
+vite/dist/node/chunks/config.js:30358:1
+5)
+    at async file:///C:/Users/GHEGHI/Do
+cuments/Ghevary/project/demo/kodingin_d
+emo/vue_app/node_modules/vite/dist/node
+/chunks/config.js:30319:10
+    at async asyncReplace (file:///C:/U
+sers/GHEGHI/Documents/Ghevary/project/d
+emo/kodingin_demo/vue_app/node_modules/
+vite/dist/node/chunks/config.js:2002:16
+)
+    at async Promise.all (index 0)
+    at async LazyResult.runAsync (C:\Us
+ers\GHEGHI\Documents\Ghevary\project\de
+mo\kodingin_demo\vue_app\node_modules\p
+ostcss\lib\lazy-result.js:293:11)[39m
