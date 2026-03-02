@@ -51,13 +51,14 @@ const addImage = () => {
         formData.append('file', file)
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api/upload`, {
+            const baseUrl = import.meta.env.PROD ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:4000')
+            const response = await fetch(`${baseUrl}/api/upload`, {
                 method: 'POST',
                 body: formData
             })
             const data = await response.json()
             if (data.url && editor.value) {
-                editor.value.chain().focus().setImage({ src: `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}${data.url}` }).run()
+                editor.value.chain().focus().setImage({ src: `${baseUrl}${data.url}` }).run()
             }
         } catch (err) {
             console.error('Failed to upload image:', err)

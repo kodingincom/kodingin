@@ -93,13 +93,14 @@ const handleCoverUpload = async (event: Event) => {
     formData.append('file', file)
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api/upload`, {
+        const baseUrl = import.meta.env.PROD ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:4000')
+        const response = await fetch(`${baseUrl}/api/upload`, {
             method: 'POST',
             body: formData
         })
         const data = await response.json()
         if (data.url) {
-            imageUrl.value = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}${data.url}`
+            imageUrl.value = `${baseUrl}${data.url}`
         }
     } catch (err) {
         console.error('Failed to upload cover:', err)
@@ -145,20 +146,24 @@ const handleCoverUpload = async (event: Event) => {
           />
         </div>
 
-        <!-- Cover Image URL -->
-        <div class="space-y-2">
-          <label class="text-sm font-semibold">Cover Image</label>
-          <div class="flex gap-2 items-center">
-            <input 
-              v-model="imageUrl" 
-              type="url" 
-              placeholder="URL or click Upload ->" 
-              class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-            />
-            <label class="px-4 py-2.5 bg-secondary text-secondary-foreground rounded-md cursor-pointer hover:bg-secondary/80 flex border border-border whitespace-nowrap">
-              Upload
-              <input type="file" @change="handleCoverUpload" accept="image/*" class="hidden" />
-            </label>
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-sm font-semibold">Cover Image</label>
+            <div class="flex gap-2 items-center">
+              <input 
+                v-model="imageUrl" 
+                type="url" 
+                placeholder="URL or click Upload ->" 
+                class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+              />
+              <label class="px-4 py-2.5 bg-secondary text-secondary-foreground rounded-md cursor-pointer hover:bg-secondary/80 flex border border-border whitespace-nowrap">
+                Upload
+                <input type="file" @change="handleCoverUpload" accept="image/*" class="hidden" />
+              </label>
+            </div>
+          </div>
+          <div v-if="imageUrl" class="rounded-md overflow-hidden border border-border bg-secondary/20">
+            <img :src="imageUrl" alt="Cover Preview" class="w-full max-h-[250px] object-contain" />
           </div>
         </div>
 
