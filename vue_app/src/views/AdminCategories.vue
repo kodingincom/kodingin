@@ -1,31 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useGetCategories } from '../hooks/useCategories'
+import { useGetCategories, useCreateCategory } from '../hooks/useCategories'
 import { useQueryClient } from '@tanstack/vue-query'
 
 const { data: categories, isLoading } = useGetCategories()
+const { mutate: createCategory, isPending: isCreating } = useCreateCategory()
 const queryClient = useQueryClient()
-const isCreating = ref(false)
 
-const handleCreateCategory = async () => {
+const handleCreateCategory = () => {
     const name = window.prompt("Enter new category name:")
     if (!name) return
 
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
-    isCreating.value = true
-    try {
-        const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:4000/api') + '/categories', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, slug })
-        })
-        if (!res.ok) throw new Error("Failed to create")
-        queryClient.invalidateQueries({ queryKey: ['categories'] })
-    } catch (err: any) {
-        alert("Error: " + err.message)
-    } finally {
-        isCreating.value = false
-    }
+    
+    createCategory(
+      { name, slug },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['categories'] })
+        },
+        onError: (err: any) => {
+          alert("Error: " + err.message)
+        }
+      }
+    )
 }
 </script>
 

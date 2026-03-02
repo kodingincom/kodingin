@@ -19,7 +19,7 @@ const title = ref('')
 const slug = ref('')
 const categoryId = ref<number | ''>('')
 const imageUrl = ref('')
-const createdAtDate = ref('')
+const createdAtDate = ref(new Date().toISOString().substring(0, 10))
 const content = ref('<p>Start writing your amazing blog post...</p>')
 const id = ref<number | null>(null)
 
