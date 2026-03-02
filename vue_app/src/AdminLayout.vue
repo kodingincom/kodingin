@@ -4,10 +4,12 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const isDark = ref(document.documentElement.classList.contains('dark'))
+const isMobileSidebarOpen = ref(false)
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
   document.documentElement.classList.toggle('dark', isDark.value)
+  localStorage.setItem("theme", isDark.value ? "dark" : "light")
 }
 
 const handleLogout = () => {
@@ -18,15 +20,29 @@ const handleLogout = () => {
 
 <template>
   <div class="flex h-screen bg-background text-foreground overflow-hidden">
+    <!-- Overlay for mobile sidebar -->
+    <transition name="fade">
+      <div 
+        v-if="isMobileSidebarOpen"
+        @click="isMobileSidebarOpen = false"
+        class="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 lg:hidden"
+      ></div>
+    </transition>
+
     <!-- Sidebar -->
-    <aside class="w-64 border-r border-border bg-card flex flex-col shrink-0 transition-all duration-300 relative z-20">
+    <aside 
+      :class="[
+        'fixed lg:static inset-y-0 left-0 w-64 border-r border-border bg-card flex flex-col shrink-0 transition-transform duration-300 z-40',
+        isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      ]"
+    >
       <router-link to="/" class="h-20 flex items-center px-8 border-b border-border hover:opacity-80 transition-opacity">
         <img src="@/assets/2-removebg-preview.svg" alt="kodingin" class="h-8 block dark:hidden" />
         <img src="@/assets/1-removebg-preview.svg" alt="kodingin" class="h-8 hidden dark:block" />
       </router-link>
 
       <nav class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
-        <router-link to="/admin" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" exact-active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
+        <router-link @click="isMobileSidebarOpen = false" to="/admin" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" exact-active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"></rect>
@@ -37,7 +53,7 @@ const handleLogout = () => {
           <span>Dashboard</span>
         </router-link>
         
-        <router-link to="/admin/posts" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
+        <router-link @click="isMobileSidebarOpen = false" to="/admin/posts" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -49,7 +65,7 @@ const handleLogout = () => {
           <span>Blog Posts</span>
         </router-link>
 
-        <router-link to="/admin/categories" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
+        <router-link @click="isMobileSidebarOpen = false" to="/admin/categories" class="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors font-medium" active-class="bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 9h16" />
@@ -80,10 +96,15 @@ const handleLogout = () => {
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col h-full bg-secondary/5 relative z-10 w-full overflow-hidden">
-      <header class="h-20 flex items-center justify-between px-8 border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-30">
-        <div>
-          <h1 class="text-2xl font-bold capitalize tracking-tight">{{ $route.name || 'Overview' }}</h1>
-          <p class="text-sm text-muted-foreground mt-1">Manage your website content</p>
+      <header class="h-20 flex shrink-0 items-center justify-between px-4 sm:px-8 border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <button @click="isMobileSidebarOpen = true" class="lg:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold capitalize tracking-tight">{{ $route.name || 'Overview' }}</h1>
+            <p class="text-sm text-muted-foreground mt-1 hidden sm:block">Manage your website content</p>
+          </div>
         </div>
         <div class="flex items-center gap-4">
           <div class="text-right hidden sm:block">

@@ -24,9 +24,6 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  if (!document.documentElement.classList.contains('dark')) {
-    document.documentElement.classList.add('dark')
-  }
   // Scroll to top on load
   window.scrollTo(0, 0)
 })

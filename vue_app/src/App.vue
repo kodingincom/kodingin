@@ -84,7 +84,6 @@ const codeSnippet = [
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  document.documentElement.classList.add('dark')
 
   // Typing animation observer
   let i = 0;
@@ -180,19 +179,22 @@ onUnmounted(() => {
     </header>
 
     <!-- Mobile Menu -->
-    <div
-      v-show="isMobileMenuOpen"
-      class="fixed inset-0 z-40 bg-background flex flex-col items-center justify-center gap-8"
-    >
-      <span class="absolute top-5 right-5 cursor-pointer text-foreground" @click="isMobileMenuOpen = false">
-        <X class="w-6 h-6" />
-      </span>
-      <a href="#hero" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Home</a>
-      <a href="#services" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Services</a>
-      <a href="#about" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">About</a>
-      <a href="#pricing" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Pricing</a>
-      <a href="#contact" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Contact</a>
-    </div>
+    <transition name="mobile-menu">
+      <div
+        v-if="isMobileMenuOpen"
+        class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center gap-8"
+      >
+        <span class="absolute top-5 right-5 cursor-pointer text-foreground" @click="isMobileMenuOpen = false">
+          <X class="w-6 h-6" />
+        </span>
+        <a href="#hero" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Home</a>
+        <a href="#services" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Services</a>
+        <a href="#about" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">About</a>
+        <a href="#pricing" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Pricing</a>
+        <a href="#contact" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Contact</a>
+        <AnimatedThemeToggler />
+      </div>
+    </transition>
 
     <!-- Hero Section -->
     <section id="hero" class="min-h-screen flex items-center relative overflow-hidden pt-20">

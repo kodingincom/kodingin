@@ -39,10 +39,32 @@ onBeforeUnmount(() => {
 })
 
 const addImage = () => {
-    const url = window.prompt('URL of the image:')
-    if (url && editor.value) {
-        editor.value.chain().focus().setImage({ src: url }).run()
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = 'image/*'
+    
+    fileInput.onchange = async (event) => {
+        const file = (event.target as HTMLInputElement).files?.[0]
+        if (!file) return
+
+        const formData = new FormData()
+        formData.append('file', file)
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api/upload`, {
+                method: 'POST',
+                body: formData
+            })
+            const data = await response.json()
+            if (data.url && editor.value) {
+                editor.value.chain().focus().setImage({ src: `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}${data.url}` }).run()
+            }
+        } catch (err) {
+            console.error('Failed to upload image:', err)
+            alert('Failed to upload image')
+        }
     }
+    fileInput.click()
 }
 </script>
 

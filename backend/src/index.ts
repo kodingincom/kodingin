@@ -6,6 +6,9 @@ import { eq, desc } from 'drizzle-orm';
 import { db } from './db';
 import { auth } from './auth';
 import { toNodeHandler } from 'better-auth/node';
+import fs from 'fs';
+import path from 'path';
+import multer from 'multer';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -15,6 +18,21 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
+const uploadDir = path.join(__dirname, '../public/uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, uploadDir),
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
+app.use('/uploads', express.static(uploadDir));
 
 // Mount Better Auth endpoints
 app.use("/api/auth", toNodeHandler(auth));
@@ -53,6 +71,14 @@ const setCache = async (key: string, data: any, ttlSeconds = 60 * 5) => {
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
+});
+
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ url: fileUrl });
 });
 
 app.get('/api/categories', async (req, res) => {

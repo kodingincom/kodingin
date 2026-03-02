@@ -31,6 +31,13 @@
 
   <!-- Theme -->
   <meta name="theme-color" content="#8a2be2">
+  <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
 </head>
 
 <body>

@@ -84,6 +84,28 @@ const generateSlug = () => {
     slug.value = title.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
   }
 }
+
+const handleCoverUpload = async (event: Event) => {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api/upload`, {
+            method: 'POST',
+            body: formData
+        })
+        const data = await response.json()
+        if (data.url) {
+            imageUrl.value = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}${data.url}`
+        }
+    } catch (err) {
+        console.error('Failed to upload cover:', err)
+        alert('Failed to upload cover image')
+    }
+}
 </script>
 
 <template>
@@ -125,13 +147,19 @@ const generateSlug = () => {
 
         <!-- Cover Image URL -->
         <div class="space-y-2">
-          <label class="text-sm font-semibold">Cover Image URL</label>
-          <input 
-            v-model="imageUrl" 
-            type="url" 
-            placeholder="https://example.com/image.jpg" 
-            class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-          />
+          <label class="text-sm font-semibold">Cover Image</label>
+          <div class="flex gap-2 items-center">
+            <input 
+              v-model="imageUrl" 
+              type="url" 
+              placeholder="URL or click Upload ->" 
+              class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            />
+            <label class="px-4 py-2.5 bg-secondary text-secondary-foreground rounded-md cursor-pointer hover:bg-secondary/80 flex border border-border whitespace-nowrap">
+              Upload
+              <input type="file" @change="handleCoverUpload" accept="image/*" class="hidden" />
+            </label>
+          </div>
         </div>
 
         <!-- Date -->
