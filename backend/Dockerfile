@@ -8,9 +8,7 @@ RUN npm install
 
 COPY . .
 
-# Generate drizzle sqlite db script?
-# RUN npx drizzle-kit generate:sqlite
-
 EXPOSE 4000
 
-CMD ["npm", "run", "dev"]
+# On startup: push DB schema, seed admin user, then start the server
+CMD sh -c "npx drizzle-kit push && npx tsx src/seed.ts && npm run start"
