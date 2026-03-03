@@ -157,8 +157,9 @@ const formatDate = (dateString: string) => {
           >
             <!-- Thumbnail -->
             <div :class="['h-48 relative overflow-hidden flex items-start justify-end p-4', getBgClass(post.slug)]">
-              <!-- Default Image fallback -->
-              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600" :alt="post.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-50 mix-blend-overlay" />
+              <!-- Cover Image or Default fallback -->
+              <img v-if="post.imageUrl" :src="post.imageUrl" :alt="post.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img v-else src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600" :alt="post.title" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-50 mix-blend-overlay" />
               <!-- Cover overlay gradient -->
               <div class="absolute inset-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent z-0 pointer-events-none" />
             </div>

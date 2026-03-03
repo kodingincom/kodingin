@@ -114,7 +114,8 @@ onUnmounted(() => {
         </div>
         <div v-else-if="post">
           <div class="h-[300px] w-full rounded-2xl overflow-hidden mb-8 relative group">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200" :alt="post.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img v-if="post.imageUrl" :src="post.imageUrl" :alt="post.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img v-else src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200" :alt="post.title" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             <span class="absolute top-5 right-5 bg-background/80 backdrop-blur-sm text-foreground text-xs font-semibold px-3 py-1.5 rounded-full z-10">
               Article
             </span>
