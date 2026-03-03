@@ -3,13 +3,17 @@ import { Pool } from 'pg';
 // This script creates all database tables if they don't exist.
 // It runs before the server starts, ensuring the schema is ready.
 async function migrate() {
-    const pool = new Pool({
-        connectionString: process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/kodingin',
-    });
-
+    const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/kodingin';
     console.log('🔄 Running database migrations...');
+    console.log('📡 Connecting to:', connectionString.replace(/:[^:@]+@/, ':***@')); // log URL with hidden password
+
+    const pool = new Pool({ connectionString });
 
     try {
+        // Test connection first
+        await pool.query('SELECT 1');
+        console.log('✅ Database connection successful!');
+
         await pool.query(`
             CREATE TABLE IF NOT EXISTS "categories" (
                 "id" SERIAL PRIMARY KEY,
@@ -74,10 +78,10 @@ async function migrate() {
             );
         `);
 
-        console.log('✅ Database migrations completed successfully!');
+        console.log('✅ All tables created/verified successfully!');
     } catch (error) {
         console.error('❌ Migration failed:', error);
-        process.exit(1);
+        // Don't exit — let the server try to start anyway
     } finally {
         await pool.end();
     }
