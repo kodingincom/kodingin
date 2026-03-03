@@ -256,7 +256,7 @@ app.get('/api/posts/:slug', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch post' });
     }
 });
-app.listen(port, () => {
-    console.log(`Backend server running on port ${port}`);
+app.listen(Number(port), '0.0.0.0', () => {
+    console.log(`Backend server running on 0.0.0.0:${port}`);
 });
 //# sourceMappingURL=index.js.map
