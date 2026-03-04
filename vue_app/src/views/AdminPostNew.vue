@@ -100,7 +100,8 @@ const handleCoverUpload = async (event: Event) => {
         })
         const data = await response.json()
         if (data.url) {
-            imageUrl.value = `${baseUrl}${data.url}`
+            // Always store the relative path — Nginx proxies /uploads/ to the backend
+            imageUrl.value = data.url
         }
     } catch (err) {
         console.error('Failed to upload cover:', err)
@@ -152,8 +153,8 @@ const handleCoverUpload = async (event: Event) => {
             <div class="flex gap-2 items-center">
               <input 
                 v-model="imageUrl" 
-                type="url" 
-                placeholder="URL or click Upload ->" 
+                type="text" 
+                placeholder="Paste URL or click Upload →" 
                 class="w-full bg-background border border-border rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               />
               <label class="px-4 py-2.5 bg-secondary text-secondary-foreground rounded-md cursor-pointer hover:bg-secondary/80 flex border border-border whitespace-nowrap">
