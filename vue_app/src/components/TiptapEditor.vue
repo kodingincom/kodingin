@@ -2,6 +2,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 import { watch, onBeforeUnmount } from 'vue'
 
 const props = defineProps<{
@@ -15,6 +16,11 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Image,
+    Link.configure({
+      openOnClick: false,
+      autolink: true,
+      defaultProtocol: 'https',
+    }),
   ],
   editorProps: {
     attributes: {
@@ -66,6 +72,25 @@ const addImage = () => {
         }
     }
     fileInput.click()
+}
+
+const setLink = () => {
+  const previousUrl = editor.value?.getAttributes('link').href
+  const url = window.prompt('URL', previousUrl || '')
+
+  // cancelled
+  if (url === null) {
+    return
+  }
+
+  // empty
+  if (url === '') {
+    editor.value?.chain().focus().extendMarkRange('link').unsetLink().run()
+    return
+  }
+
+  // update link
+  editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
 }
 </script>
 
@@ -122,6 +147,20 @@ const addImage = () => {
       >
         Image
       </button>
+      <button 
+        @click.prevent="setLink"
+        :class="{ 'bg-primary/20 text-primary': editor.isActive('link') }"
+        class="px-3 py-1.5 rounded text-sm font-medium hover:bg-secondary transition-colors"
+      >
+        Link
+      </button>
+      <button 
+        v-if="editor.isActive('link')"
+        @click.prevent="editor.chain().focus().unsetLink().run()"
+        class="px-3 py-1.5 rounded text-sm font-medium hover:bg-secondary transition-colors text-destructive"
+      >
+        Unlink
+      </button>
     </div>
     
     <editor-content :editor="editor" />
@@ -160,5 +199,10 @@ const addImage = () => {
   padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
+}
+.ProseMirror a {
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>
