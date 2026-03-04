@@ -53,6 +53,8 @@ const projects = [
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
+const isMobileServicesOpen = ref(false)
+const isMobileAboutOpen = ref(false)
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
@@ -182,14 +184,33 @@ onUnmounted(() => {
     <transition name="mobile-menu">
       <div
         v-if="isMobileMenuOpen"
-        class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center gap-8"
+        class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center gap-8 overflow-y-auto py-20"
       >
-        <span class="absolute top-5 right-5 cursor-pointer text-foreground" @click="isMobileMenuOpen = false">
+        <span class="absolute top-5 right-5 cursor-pointer text-foreground p-2" @click="isMobileMenuOpen = false">
           <X class="w-6 h-6" />
         </span>
         <a href="#hero" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Home</a>
-        <a href="#services" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Services</a>
-        <a href="#about" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">About</a>
+        
+        <div class="flex flex-col items-center gap-4">
+          <div class="flex items-center gap-2 cursor-pointer text-2xl font-semibold" @click="isMobileServicesOpen = !isMobileServicesOpen">
+            Services <ChevronDown class="w-6 h-6 transition-transform" :class="{ 'rotate-180': isMobileServicesOpen }" />
+          </div>
+          <div v-show="isMobileServicesOpen" class="flex flex-col items-center gap-4 text-lg text-muted-foreground">
+            <a href="#services" @click="isMobileMenuOpen = false" class="hover:text-foreground">All Services</a>
+            <a href="#projects" @click="isMobileMenuOpen = false" class="hover:text-foreground">What We Build</a>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-4">
+          <div class="flex items-center gap-2 cursor-pointer text-2xl font-semibold" @click="isMobileAboutOpen = !isMobileAboutOpen">
+            About <ChevronDown class="w-6 h-6 transition-transform" :class="{ 'rotate-180': isMobileAboutOpen }" />
+          </div>
+          <div v-show="isMobileAboutOpen" class="flex flex-col items-center gap-4 text-lg text-muted-foreground">
+            <a href="#about" @click="isMobileMenuOpen = false" class="hover:text-foreground">About Us</a>
+            <a href="/blog" @click="isMobileMenuOpen = false" class="hover:text-foreground">Blog</a>
+          </div>
+        </div>
+
         <a href="#pricing" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Pricing</a>
         <a href="#contact" class="text-2xl font-semibold" @click="isMobileMenuOpen = false">Contact</a>
         <AnimatedThemeToggler />
