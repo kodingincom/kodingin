@@ -11,7 +11,7 @@ services:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:KodinginSecret2026!@postgres:5432/kodingin}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:-super_secret_key_kodingin_production_2026_safe}
       - BETTER_AUTH_URL=${BETTER_AUTH_URL:-https://api.kodingin.com}
-      - FRONTEND_URL=${FRONTEND_URL:-https://kodingin.com}
+      - FRONTEND_URL=${FRONTEND_URL:-https://kodingin.com,https://www.kodingin.com}
     volumes:
       - uploads_data:/app/public/uploads
     depends_on:
