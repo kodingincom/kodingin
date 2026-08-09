@@ -79,6 +79,9 @@ const delCache = async (key) => {
     catch (err) { }
 };
 // --- ENDPOINTS ---
+app.get('/', (req, res) => {
+    res.json({ status: 'ok', message: 'Kodingin API Server Running' });
+});
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
 });
