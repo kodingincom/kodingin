@@ -18,15 +18,13 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL || 'http://localhost:8080',
-        'https://kodingin.com',
-        'https://www.kodingin.com',
-        'https://vueapp-bice.vercel.app',
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-    ],
-    credentials: true
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        return callback(null, origin);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cookie', 'Accept']
 }));
 app.use(express.json());
 
