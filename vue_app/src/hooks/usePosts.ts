@@ -10,7 +10,7 @@ export function useGetPosts(categoryId?: string) {
         queryKey: ['posts', { categoryId }],
         queryFn: async () => {
             const url = categoryId ? `${API_URL}/posts?category=${categoryId}` : `${API_URL}/posts`
-            const res = await fetch(url)
+            const res = await fetch(url, { credentials: 'include' })
             if (!res.ok) throw new Error('Network response was not ok')
             return res.json()
         }
@@ -21,7 +21,7 @@ export function useGetPost(slug: string) {
     return useQuery({
         queryKey: ['post', slug],
         queryFn: async () => {
-            const res = await fetch(`${API_URL}/posts/${slug}`)
+            const res = await fetch(`${API_URL}/posts/${slug}`, { credentials: 'include' })
             if (!res.ok) throw new Error('Network response was not ok')
             return res.json()
         },
@@ -39,9 +39,13 @@ export function useCreatePost() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(newPost)
             })
-            if (!res.ok) throw new Error('Failed to create post')
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}))
+                throw new Error(errData.error || 'Failed to create post')
+            }
             return res.json()
         },
         onSuccess: () => {
@@ -60,9 +64,13 @@ export function useUpdatePost() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(post)
             })
-            if (!res.ok) throw new Error('Failed to update post')
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}))
+                throw new Error(errData.error || 'Failed to update post')
+            }
             return res.json()
         },
         onSuccess: (data) => {
@@ -78,9 +86,13 @@ export function useDeletePost() {
     return useMutation({
         mutationFn: async (id: number) => {
             const res = await fetch(`${API_URL}/posts/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'include'
             })
-            if (!res.ok) throw new Error('Failed to delete post')
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}))
+                throw new Error(errData.error || 'Failed to delete post')
+            }
             return res.json()
         },
         onSuccess: () => {

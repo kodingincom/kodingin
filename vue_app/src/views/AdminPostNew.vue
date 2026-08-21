@@ -97,6 +97,7 @@ const handleCoverUpload = async (event: Event) => {
         const API_BASE = rawApiUrl ? rawApiUrl.replace(/\/api\/?$/, '') : (import.meta.env.DEV ? 'http://localhost:4000' : '')
         const response = await fetch(`${API_BASE}/api/upload`, {
             method: 'POST',
+            credentials: 'include',
             body: formData
         })
         if (!response.ok) {

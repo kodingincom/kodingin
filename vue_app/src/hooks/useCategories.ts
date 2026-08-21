@@ -9,7 +9,7 @@ export function useGetCategories() {
     return useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await fetch(`${API_URL}/categories`)
+            const res = await fetch(`${API_URL}/categories`, { credentials: 'include' })
             if (!res.ok) throw new Error('Network response was not ok')
             return res.json()
         }
@@ -26,9 +26,13 @@ export function useCreateCategory() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(newCategory)
             })
-            if (!res.ok) throw new Error('Failed to create category')
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}))
+                throw new Error(errData.error || 'Failed to create category')
+            }
             return res.json()
         },
         onSuccess: () => {
