@@ -57,18 +57,24 @@ const addImage = () => {
         formData.append('file', file)
 
         try {
-            const baseUrl = import.meta.env.PROD ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:4000')
-            const response = await fetch(`${baseUrl}/api/upload`, {
+            const rawApiUrl = import.meta.env.VITE_API_URL || ''
+            const API_BASE = rawApiUrl ? rawApiUrl.replace(/\/api\/?$/, '') : (import.meta.env.DEV ? 'http://localhost:4000' : '')
+            const response = await fetch(`${API_BASE}/api/upload`, {
                 method: 'POST',
                 body: formData
             })
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}))
+                throw new Error(errData.error || `Upload failed with status ${response.status}`)
+            }
             const data = await response.json()
             if (data.url && editor.value) {
-                editor.value.chain().focus().setImage({ src: `${baseUrl}${data.url}` }).run()
+                const fullImageUrl = data.url.startsWith('http') ? data.url : `${API_BASE}${data.url}`
+                editor.value.chain().focus().setImage({ src: fullImageUrl }).run()
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to upload image:', err)
-            alert('Failed to upload image')
+            alert('Failed to upload image: ' + (err.message || err))
         }
     }
     fileInput.click()

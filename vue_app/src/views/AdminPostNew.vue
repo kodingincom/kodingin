@@ -93,19 +93,24 @@ const handleCoverUpload = async (event: Event) => {
     formData.append('file', file)
 
     try {
-        const baseUrl = import.meta.env.PROD ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:4000')
-        const response = await fetch(`${baseUrl}/api/upload`, {
+        const rawApiUrl = import.meta.env.VITE_API_URL || ''
+        const API_BASE = rawApiUrl ? rawApiUrl.replace(/\/api\/?$/, '') : (import.meta.env.DEV ? 'http://localhost:4000' : '')
+        const response = await fetch(`${API_BASE}/api/upload`, {
             method: 'POST',
             body: formData
         })
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}))
+            throw new Error(errData.error || `Upload failed with status ${response.status}`)
+        }
         const data = await response.json()
         if (data.url) {
-            // Always store the relative path — Nginx proxies /uploads/ to the backend
-            imageUrl.value = data.url
+            const fullImageUrl = data.url.startsWith('http') ? data.url : `${API_BASE}${data.url}`
+            imageUrl.value = fullImageUrl
         }
-    } catch (err) {
+    } catch (err: any) {
         console.error('Failed to upload cover:', err)
-        alert('Failed to upload cover image')
+        alert('Failed to upload cover image: ' + (err.message || err))
     }
 }
 </script>
